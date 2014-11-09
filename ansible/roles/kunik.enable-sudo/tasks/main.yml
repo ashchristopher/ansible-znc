@@ -1,0 +1,25 @@
+- name: "add user to {{ enable_sudo.sudo_group }}"
+  sudo: true
+  user: >
+    name={{ enable_sudo.user }}
+    groups={{ enable_sudo.sudo_group }}
+    state=present
+    append=yes
+
+- name: "enable sudo for {{ enable_sudo.sudo_group }}"
+  sudo: true
+  lineinfile: >
+    dest=/etc/sudoers
+    state=present
+    regexp='^%{{ enable_sudo.sudo_group }}'
+    line='%{{ enable_sudo.sudo_group }} ALL=(ALL:ALL) ALL'
+  when: "not {{ enable_sudo.passwordless }}"
+
+- name: "enable sudo for {{ enable_sudo.sudo_group }} without password"
+  sudo: true
+  lineinfile: >
+    dest=/etc/sudoers
+    state=present
+    regexp='^%{{ enable_sudo.sudo_group }}'
+    line='%{{ enable_sudo.sudo_group }} ALL=(ALL:ALL) NOPASSWD:ALL'
+  when: enable_sudo.passwordless

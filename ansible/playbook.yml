@@ -1,0 +1,20 @@
+---
+- name: a playbook configure a server for ZNC usage.
+  hosts: znc
+  remote_user: root
+  vars:
+    user: ash
+
+  tasks:
+    - hostname: name=znc
+    - apt: update_cache=yes upgrade=yes 
+    - user: name="{{ user }}" 
+            shell=/bin/bash 
+            append=yes
+    - authorized_key: user="{{ user }}" 
+                      key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}" 
+                      manage_dir=yes 
+                      state=present
+
+  roles:
+    - {role: kunik.enable-sudo, passwordless: True, sudo_group: sudo, user: "{{ user }}"}  # https://github.com/kunik/ansible-role-enable-sudo

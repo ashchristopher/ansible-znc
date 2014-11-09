@@ -1,0 +1,4 @@
+enable_sudo:
+  user:  developer
+  sudo_group: sudo
+  passwordless: yes

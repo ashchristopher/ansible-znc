@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Taras Kunch
+  description: Enables sudo for certain user via sudo group
+  company: Rebbix
+  min_ansible_version: 1.4
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+  - system
